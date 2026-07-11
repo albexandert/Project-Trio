@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Magic
+  - Heroes
+  - SWH
+  - MH
+  - SH
   layers:
   - Default
   - TransparentFX

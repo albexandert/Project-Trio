@@ -17,7 +17,14 @@ public class PlayerSwitchingScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        swordHero = GameObject.FindGameObjectWithTag("SWH");
+        mageHero = GameObject.FindGameObjectWithTag("MH");
+        slimeHero = GameObject.FindGameObjectWithTag("SH");
+        swa = swordHero.GetComponent<SwordAbility>();
+        ma = mageHero.GetComponent<MageAbility>();
+        sa = slimeHero.GetComponent<SlimeAbility>();
+        mageHero.SetActive(false);
+        slimeHero.SetActive(false);
     }
 
     // Update is called once per frame
