@@ -16,11 +16,11 @@ public class PlayerController : MonoBehaviour
     public float lastOnWallTime;
     public float lastOnWallRightTime;
     public float lastOnWallLeftTime;
-    private bool isJumpCut;
-    private bool isJumpFalling;
-    private float wallJumpStartTime;
-    private int lastWallJumpDir;
-    public float lastPressedJumpTime { get; private set; }
+    public bool isJumpCut;
+    public bool isJumpFalling;
+    public float wallJumpStartTime;
+    public int lastWallJumpDir;
+    public float lastPressedJumpTime;
     //public SlimeAbility sa;
     public SwordAbility swa;
     public MageAbility ma;
@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour
             Slide();
     }
 
-    private void Turn()
+    public void Turn()
     {
         //stores scale and flips the player along the x axis, 
         Vector3 scale = transform.localScale;

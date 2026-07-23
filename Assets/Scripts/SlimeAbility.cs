@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-/*
+
 public class SlimeAbility : MonoBehaviour
 {
+    /*
     public BoxCollider2D bc;
     public Vector2 normalSize;
     public Vector2 normalOffset;
@@ -208,6 +209,5 @@ public class SlimeAbility : MonoBehaviour
     {
         isWallJumping = false;
     }
-    
+*/    
 }
-*/

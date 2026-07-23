@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-/*
+
 public class PlayerSwitchingScript : MonoBehaviour
 {
     public GameObject swordHero;
@@ -19,12 +19,12 @@ public class PlayerSwitchingScript : MonoBehaviour
     {
         swordHero = GameObject.FindGameObjectWithTag("SWH");
         mageHero = GameObject.FindGameObjectWithTag("MH");
-        slimeHero = GameObject.FindGameObjectWithTag("SH");
+        //slimeHero = GameObject.FindGameObjectWithTag("SH");
         swa = swordHero.GetComponent<SwordAbility>();
         ma = mageHero.GetComponent<MageAbility>();
-        sa = slimeHero.GetComponent<SlimeAbility>();
+        //sa = slimeHero.GetComponent<SlimeAbility>();
         mageHero.SetActive(false);
-        slimeHero.SetActive(false);
+        //limeHero.SetActive(false);
     }
 
     // Update is called once per frame
@@ -32,7 +32,7 @@ public class PlayerSwitchingScript : MonoBehaviour
     {
         if (!delayActive)
         {
-            if (!sa.isWallClimbing && (!sa.isTop && !sa.isTopTwo) && !swa.isAttack && !ma.isMagic)
+            if (/*!sa.isWallClimbing && (!sa.isTop && !sa.isTopTwo) &&*/ !swa.isAttack && !ma.isMagic)
             {
                 if (Input.GetButtonDown("Switch"))
                 {
@@ -55,19 +55,55 @@ public class PlayerSwitchingScript : MonoBehaviour
     {
         if(swordActive)
         {
+            swordHero.GetComponent<PlayerController>().isJumping = false;
+            swordHero.GetComponent<PlayerController>().isWallJumping = false;
+            swordHero.GetComponent<PlayerController>().isJumpCut = false;
+            swordHero.GetComponent<PlayerController>().isJumpFalling = false;
+            swordHero.GetComponent<PlayerController>().lastPressedJumpTime = 0;
+            swordHero.GetComponent<PlayerController>().lastOnGroundTime = 0;
+            swordHero.GetComponent<PlayerController>().lastOnWallRightTime = 0;
+            swordHero.GetComponent<PlayerController>().lastOnWallLeftTime = 0;
             swordHero.SetActive(false);
             mageHero.transform.position = swordHero.transform.position;
             if (swordHero.GetComponent<PlayerController>().isFacingRight != mageHero.GetComponent<PlayerController>().isFacingRight)
             {
-                mageHero.transform.Rotate(0f, 180f, 0f);
+                mageHero.GetComponent<PlayerController>().Turn();
             }
-            mageHero.GetComponent<PlayerController>().isFacingRight = swordHero.GetComponent<PlayerController>().isFacingRight;
+            if (swordHero.GetComponent<PlayerController>().isSliding)
+            {
+                mageHero.GetComponent<PlayerController>().isSliding = true;
+            }
+            swordHero.GetComponent<PlayerController>().isSliding = false;
             mageHero.SetActive(true);
             swordActive = false;
             mageActive = true;
         }
         else if(mageActive)
         {
+            mageHero.GetComponent<PlayerController>().isJumping = false;
+            mageHero.GetComponent<PlayerController>().isWallJumping = false;
+            mageHero.GetComponent<PlayerController>().isJumpCut = false;
+            mageHero.GetComponent<PlayerController>().isJumpFalling = false;
+            mageHero.GetComponent<PlayerController>().lastPressedJumpTime = 0;
+            mageHero.GetComponent<PlayerController>().lastOnGroundTime = 0;
+            mageHero.GetComponent<PlayerController>().lastOnWallRightTime = 0;
+            mageHero.GetComponent<PlayerController>().lastOnWallLeftTime = 0;
+            mageHero.SetActive(false);
+            swordHero.transform.position = mageHero.transform.position;
+            if (mageHero.GetComponent<PlayerController>().isFacingRight != swordHero.GetComponent<PlayerController>().isFacingRight)
+            {
+                swordHero.GetComponent<PlayerController>().Turn();
+            }
+            if (mageHero.GetComponent<PlayerController>().isSliding)
+            {
+                swordHero.GetComponent<PlayerController>().isSliding = true;
+            }
+            mageHero.GetComponent<PlayerController>().isSliding = false;
+            swordHero.SetActive(true);
+            mageActive = false;
+            swordActive = true;
+
+            /*
             mageHero.SetActive(false);
             slimeHero.transform.position = mageHero.transform.position;
             if (mageHero.GetComponent<PlayerController>().isFacingRight != slimeHero.GetComponent<PlayerController>().isFacingRight)
@@ -77,9 +113,11 @@ public class PlayerSwitchingScript : MonoBehaviour
             slimeHero.GetComponent<PlayerController>().isFacingRight = mageHero.GetComponent<PlayerController>().isFacingRight;
             slimeHero.SetActive(true);
             mageActive = false;
+            */
         }
         else
         {
+            /*
             if (sa.isCrouched)
             {
                 sa.sr.sprite = sa.normal;
@@ -96,8 +134,9 @@ public class PlayerSwitchingScript : MonoBehaviour
             swordHero.GetComponent<PlayerController>().isFacingRight = slimeHero.GetComponent<PlayerController>().isFacingRight;
             swordHero.SetActive(true);
             swordActive = true;
+            */
         }
         delayActive = true;
     }
 }
-*/
+
