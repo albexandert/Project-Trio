@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class PlayerSwitchingScript : MonoBehaviour
 {
     public GameObject swordHero;
@@ -85,7 +85,7 @@ public class PlayerSwitchingScript : MonoBehaviour
                 sa.sr.sprite = sa.normal;
                 sa.bc.size = sa.normalSize;
                 sa.bc.offset = sa.normalOffset;
-                sa.pc.speed = sa.normalSpeed;
+                sa.pc.data.runMaxSpeed = sa.normalSpeed;
             }
             slimeHero.SetActive(false);
             swordHero.transform.position = slimeHero.transform.position;
@@ -100,3 +100,4 @@ public class PlayerSwitchingScript : MonoBehaviour
         delayActive = true;
     }
 }
+*/

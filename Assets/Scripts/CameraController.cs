@@ -17,11 +17,13 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.position = swordHero.transform.position;
+        /*
         if (!gm.isGameOver)
         {
             if (script.GetComponent<PlayerSwitchingScript>().swordActive)
             {
-                transform.position = swordHero.transform.position;
+                
             }
             else if (script.GetComponent<PlayerSwitchingScript>().mageActive)
             {
@@ -32,5 +34,6 @@ public class CameraController : MonoBehaviour
                 transform.position = slimeHero.transform.position;
             }
         }
+        */
     }
 }

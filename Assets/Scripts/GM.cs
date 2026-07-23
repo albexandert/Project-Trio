@@ -13,8 +13,8 @@ public class GM : MonoBehaviour
     [SerializeField] private PlayerController pcS;
     [SerializeField] private SwordAbility swA;
     [SerializeField] private MageAbility mA;
-    [SerializeField] private SlimeAbility sA;
-    [SerializeField] private PlayerSwitchingScript pss;
+    //[SerializeField] private SlimeAbility sA;
+    //[SerializeField] private PlayerSwitchingScript pss;
     [SerializeField] private CameraController cc;
     [SerializeField] private AudioSource music;
     [SerializeField] private MeshRenderer gameOverText;
@@ -35,8 +35,8 @@ public class GM : MonoBehaviour
             pcS.enabled = false;
             swA.enabled = false;
             mA.enabled = false;
-            sA.enabled = false;
-            pss.enabled = false;
+            //sA.enabled = false;
+            //pss.enabled = false;
             cc.enabled = false;
         }
         if (isGameOver == true)

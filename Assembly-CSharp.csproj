@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\PlayerSwitchingScript.cs" />
     <Compile Include="Assets\Scripts\HealthScript.cs" />
+    <Compile Include="Assets\Scripts\PlayerData.cs" />
     <Compile Include="Assets\Scripts\SlimeAbility.cs" />
     <Compile Include="Assets\Scripts\EnemyBehavior.cs" />
     <Compile Include="Assets\Scripts\Magic.cs" />

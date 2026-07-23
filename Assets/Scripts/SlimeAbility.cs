@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class SlimeAbility : MonoBehaviour
 {
     public BoxCollider2D bc;
@@ -45,7 +45,7 @@ public class SlimeAbility : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        normalSpeed = pc.speed;
+        normalSpeed = pc.data.runMaxSpeed;
         normalSize = bc.size;
         normalOffset = bc.offset;
         sr.sprite = normal;
@@ -80,8 +80,8 @@ public class SlimeAbility : MonoBehaviour
         if (isWallClimbing)
         {
             rb.velocity = new Vector2(rb.velocity.x, wallFallingSpeed);
-            float speedModifier = pc.vertical > 0 ? 1f : 1;
-            rb.velocity = new Vector2(rb.velocity.x, pc.vertical * (pc.speed * speedModifier));
+            float speedModifier = pc.moveInput.y > 0 ? 1f : 1;
+            rb.velocity = new Vector2(rb.velocity.x, pc.moveInput.y * (pc.data.runMaxSpeed * speedModifier));
         }
         if (pc.IsGrounded() && !isCrouched)
         {
@@ -210,3 +210,4 @@ public class SlimeAbility : MonoBehaviour
     }
     
 }
+*/

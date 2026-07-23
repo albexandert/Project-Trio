@@ -30,7 +30,7 @@ public class Goal : MonoBehaviour
             gm.playerCleared = true;
             while(true)
             {
-                collision.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(1f * collision.gameObject.GetComponent<PlayerController>().speed, collision.gameObject.GetComponent<Rigidbody2D>().velocity.y);
+                collision.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(1f * collision.gameObject.GetComponent<PlayerController>().data.runMaxSpeed, collision.gameObject.GetComponent<Rigidbody2D>().velocity.y);
             }
         }
         StartCoroutine(LevelEnd());

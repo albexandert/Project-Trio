@@ -372,6 +372,7 @@
 "Assets/Scripts/MagicPlatformScript.cs"
 "Assets/Scripts/PlayAgain.cs"
 "Assets/Scripts/PlayerController.cs"
+"Assets/Scripts/PlayerData.cs"
 "Assets/Scripts/PlayerSwitchingScript.cs"
 "Assets/Scripts/Rock.cs"
 "Assets/Scripts/SlimeAbility.cs"
