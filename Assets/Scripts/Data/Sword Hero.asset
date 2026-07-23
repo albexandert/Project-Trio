@@ -12,33 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a359bb3ff2e5d489c431ba08d6b9a5, type: 3}
   m_Name: Sword Hero
   m_EditorClassIdentifier: 
-  gravityStrength: -77.77777
-  gravityScale: 3.8888886
-  fallGravityMult: 1.5
-  maxFallSpeed: 20
-  fastFallGravityMult: 1.5
-  maxFastFallSpeed: 20
+  gravityStrength: -65.30612
+  gravityScale: 3.265306
+  fallGravityMult: 2
+  maxFallSpeed: 15
+  fastFallGravityMult: 2
+  maxFastFallSpeed: 15
   runMaxSpeed: 9
-  runAcceleration: 5
-  runAccelAmount: 27.777779
-  runDecceleration: 7
-  runDeccelAmount: 38.88889
-  accelInAir: 0.65
-  deccelInAir: 0.65
-  doConserveMomentum: 1
-  jumpHeight: 3.5
-  jumpTimeToApex: 0.3
-  jumpForce: 23.333332
-  jumpCutGravityMult: 1.55
-  jumpHangGravityMult: 0.5
-  jumpHangTimeThreshold: 0.5
-  jumpHangAccelerationMult: 1.1
-  jumpHangMaxSpeedMult: 0.1
-  wallJumpForce: {x: 10, y: 15}
-  wallJumpRunLerp: 0.466
-  wallJumpTime: 0.177
-  doTurnOnWallJump: 1
-  slideSpeed: 2
-  slideAccel: 1.5
+  runAcceleration: 4
+  runAccelAmount: 22.222221
+  runDecceleration: 6
+  runDeccelAmount: 33.333332
+  accelInAir: 1
+  deccelInAir: 0.03
+  doConserveMomentum: 0
+  jumpHeight: 4
+  jumpTimeToApex: 0.35
+  jumpForce: 22.857141
+  jumpCutGravityMult: 3
+  jumpHangGravityMult: 1
+  jumpHangTimeThreshold: 0
+  jumpHangAccelerationMult: 1
+  jumpHangMaxSpeedMult: 1
+  wallJumpForce: {x: 0, y: 0}
+  wallJumpRunLerp: 0
+  wallJumpTime: 0
+  doTurnOnWallJump: 0
+  slideSpeed: -3
+  slideAccel: 2
   coyoteTime: 0.1
-  jumpInputBufferTime: 0.1
+  jumpInputBufferTime: 0.2

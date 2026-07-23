@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour
 
     public float lastOnGroundTime;
     public float lastOnWallTime;
-    public float lastOnWallRightTime { get; private set; }
-    public float lastOnWallLeftTime { get; private set; }
+    public float lastOnWallRightTime;
+    public float lastOnWallLeftTime;
     private bool isJumpCut;
     private bool isJumpFalling;
     private float wallJumpStartTime;
@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
                 isJumpFalling = true;
         }
 
-        if (isWallJumping && Time.time - wallJumpStartTime > data.wallJumpTime)
+        if (isWallJumping && Time.time - wallJumpStartTime > data.wallJumpTime || lastOnGroundTime > 0)
         {
             isWallJumping = false;
         }
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
         //WALL JUMP
-        else if (CanWallJump() && lastPressedJumpTime > 0)
+        else if (CanWallJump() && lastPressedJumpTime > 0 && isSliding)
         {
             isWallJumping = true;
             isJumping = false;
@@ -138,6 +138,8 @@ public class PlayerController : MonoBehaviour
         }
 
         if (CanSlide() && ((lastOnWallLeftTime > 0 && moveInput.x < 0) || (lastOnWallRightTime > 0 && moveInput.x > 0)))
+            isSliding = true;
+        else if (isSliding && lastOnGroundTime < 0 && (lastOnWallLeftTime > 0 || lastOnWallRightTime > 0))
             isSliding = true;
         else
             isSliding = false;
@@ -299,6 +301,11 @@ public class PlayerController : MonoBehaviour
         //Unlike in the run we want to use the Impulse mode.
         //The default mode will apply are force instantly ignoring masss
         rb.AddForce(force, ForceMode2D.Impulse);
+
+        if (data.doTurnOnWallJump && (Mathf.Sign(force.x) != Mathf.Sign(transform.localScale.x)))
+        {
+            Turn();
+        }
     }
 
     private void Slide()
