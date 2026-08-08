@@ -21,30 +21,40 @@ public class PlayerController : MonoBehaviour
     public float wallJumpStartTime;
     public int lastWallJumpDir;
     public float lastPressedJumpTime;
-    //public SlimeAbility sa;
+    public SlimeAbility sa;
     public SwordAbility swa;
     public MageAbility ma;
+    public PlayerSwitchingScript plyss;
     public  SpriteRenderer sr;
+
+    public float iframeTime;
+    public bool isIF;
 
     public Rigidbody2D rb { get; private set; }
     //public PlayerAnimator AnimHandler { get; private set; }
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private Vector2 groundCheckSize;
+    public Vector2 groundCheckSize;
     [SerializeField] private Transform frontWallCheckPoint;
     [SerializeField] private Transform backWallCheckPoint;
     [SerializeField] private Vector2 wallCheckSize;
     [SerializeField] private LayerMask groundLayer;
+
+    [SerializeField] private Animator animator;
     // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        swa = GameObject.FindWithTag("SWH").GetComponent<SwordAbility>();
+        ma = GameObject.FindWithTag("MH").GetComponent<MageAbility>();
+        sa = GameObject.FindWithTag("SH").GetComponent<SlimeAbility>();
+        plyss = GameObject.FindWithTag("plyss").GetComponent<PlayerSwitchingScript>();
+        animator = GetComponent<Animator>();
     }
 
     void Start()
     {
         rb.gravityScale = data.gravityScale;
-        isFacingRight = true;
     }
 
     // Update is called once per frame
@@ -55,12 +65,28 @@ public class PlayerController : MonoBehaviour
         lastOnWallRightTime -= Time.deltaTime;
         lastOnWallLeftTime -= Time.deltaTime;
         lastPressedJumpTime -= Time.deltaTime;
-
-        moveInput.x = Input.GetAxisRaw("Horizontal");
-        moveInput.y = Input.GetAxisRaw("Vertical");
+        if (!isWallJumping)
+        {
+            if (!isSliding || (!isWallJumping && !plyss.slimeActive) || plyss.swordActive || plyss.mageActive)
+            {
+                moveInput.x = Input.GetAxisRaw("Horizontal");
+            }
+            else
+            {
+                moveInput.x = 0;
+            }
+            moveInput.y = Input.GetAxisRaw("Vertical");
+        }
 
         if (moveInput.x != 0)
+        {
             CheckDirectionToFace(moveInput.x > 0);
+            animator.SetBool("isRunning", true);
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
+        }
 
         if (Input.GetButtonDown("Jump"))
         {
@@ -76,19 +102,19 @@ public class PlayerController : MonoBehaviour
         {
             //Ground Check
             if (Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0, groundLayer)) //checks if set box overlaps with ground
-            {
+            { 
                 lastOnGroundTime = data.coyoteTime; //if so sets the lastGrounded to coyoteTime
             }
 
             //Right Wall Check
-            if (((Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && isFacingRight)
-                        || (Physics2D.OverlapBox(backWallCheckPoint.position, wallCheckSize, 0, groundLayer) && !isFacingRight)) && !isWallJumping)
-                lastOnWallRightTime = data.coyoteTime;
+            if ((Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && isFacingRight)
+                        || (Physics2D.OverlapBox(backWallCheckPoint.position, wallCheckSize, 0, groundLayer) && !isFacingRight && !isWallJumping))
+                lastOnWallRightTime = 0.01f;
 
             //Left Wall Check
-            if (((Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && !isFacingRight)
-                        || (Physics2D.OverlapBox(backWallCheckPoint.position, wallCheckSize, 0, groundLayer) && isFacingRight)) && !isWallJumping)
-                lastOnWallLeftTime = data.coyoteTime;
+            if ((Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && !isFacingRight)
+                        || (Physics2D.OverlapBox(backWallCheckPoint.position, wallCheckSize, 0, groundLayer) && isFacingRight && !isWallJumping))
+                lastOnWallLeftTime = 0.01f;
 
             //Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
             lastOnWallTime = Mathf.Max(lastOnWallLeftTime, lastOnWallRightTime);
@@ -102,7 +128,7 @@ public class PlayerController : MonoBehaviour
                 isJumpFalling = true;
         }
 
-        if (isWallJumping && Time.time - wallJumpStartTime > data.wallJumpTime || lastOnGroundTime > 0)
+        if (isWallJumping && lastOnWallTime >= 0 /*Time.time - wallJumpStartTime > data.wallJumpTime)*/ || lastOnGroundTime > 0)
         {
             isWallJumping = false;
         }
@@ -138,11 +164,17 @@ public class PlayerController : MonoBehaviour
         }
 
         if (CanSlide() && ((lastOnWallLeftTime > 0 && moveInput.x < 0) || (lastOnWallRightTime > 0 && moveInput.x > 0)))
+        {
             isSliding = true;
+        }
         else if (isSliding && lastOnGroundTime < 0 && (lastOnWallLeftTime > 0 || lastOnWallRightTime > 0))
+        {
             isSliding = true;
+        }
         else
+        {
             isSliding = false;
+        }
 
         //Higher gravity if we've released the jump input or are falling
         if (isSliding)
@@ -285,7 +317,6 @@ public class PlayerController : MonoBehaviour
     {
         //Ensures we can't call Wall Jump multiple times from one press
         lastPressedJumpTime = 0;
-        lastOnGroundTime = 0;
         lastOnWallRightTime = 0;
         lastOnWallLeftTime = 0;
 
@@ -326,7 +357,7 @@ public class PlayerController : MonoBehaviour
     }
     private bool CanJump()
     {
-        return lastOnGroundTime > 0 && !isJumping;
+        return lastOnGroundTime > 0 && !isJumping && !isWallJumping && !isSliding && !sa.isCrouched;
     }
 
     private bool CanWallJump()
@@ -347,7 +378,7 @@ public class PlayerController : MonoBehaviour
 
     public bool CanSlide()
     {
-        if (lastOnWallTime > 0 && !isJumping && !isWallJumping && lastOnGroundTime <= 0)
+        if (lastOnWallTime > 0 && !isJumping && lastOnGroundTime <= 0)
             return true;
         else
             return false;
@@ -355,17 +386,41 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator FlashRed(SpriteRenderer sprite)
     {
-        sprite.color = Color.red;
+        sprite.color = new Color(Color.red.r, Color.red.g, Color.red.g, sprite.color.a);
         yield return new WaitForSeconds(0.1f);
-        sprite.color = Color.white;
+        sprite.color = new Color(Color.white.r, Color.white.g, Color.white.g, sprite.color.a);
+    }
+
+    public IEnumerator IFrames(SpriteRenderer sprite)
+    {
+        isIF = true;
+
+        float elapsed = 0f;
+
+        while(elapsed < iframeTime)
+        {
+            sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0.3f);
+            yield return new WaitForSeconds(0.1f);
+            sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1);
+            yield return new WaitForSeconds(0.1f);
+
+            elapsed += 0.2f;
+        }
+
+        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1);
+        isIF = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.layer == 8)
-        { 
+        {
+            if (isIF) return;
+
             hp.TakeDamage(collision.gameObject.GetComponent<EnemyDamage>().damage);
+            rb.AddForce(10f * Vector2.up, ForceMode2D.Impulse);
             StartCoroutine(FlashRed(sr));
+            StartCoroutine(IFrames(sr));
         }
     }
 
@@ -373,8 +428,12 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.layer == 8)
         {
+            if (isIF) return;
+
             hp.TakeDamage(collision.gameObject.GetComponent<EnemyDamage>().damage);
+            rb.AddForce(10f * Vector2.up, ForceMode2D.Impulse);
             StartCoroutine(FlashRed(sr));
+            StartCoroutine(IFrames(sr));
         }
     }
 

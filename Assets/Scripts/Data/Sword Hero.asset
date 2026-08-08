@@ -12,24 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a359bb3ff2e5d489c431ba08d6b9a5, type: 3}
   m_Name: Sword Hero
   m_EditorClassIdentifier: 
-  gravityStrength: -65.30612
-  gravityScale: 3.265306
-  fallGravityMult: 2
+  gravityStrength: -34.5679
+  gravityScale: 1.7283951
+  fallGravityMult: 3
   maxFallSpeed: 15
-  fastFallGravityMult: 2
+  fastFallGravityMult: 3
   maxFastFallSpeed: 15
   runMaxSpeed: 9
   runAcceleration: 4
   runAccelAmount: 22.222221
-  runDecceleration: 6
-  runDeccelAmount: 33.333332
+  runDecceleration: 4
+  runDeccelAmount: 22.222221
   accelInAir: 1
-  deccelInAir: 0.03
+  deccelInAir: 1
   doConserveMomentum: 0
-  jumpHeight: 4
-  jumpTimeToApex: 0.35
-  jumpForce: 22.857141
-  jumpCutGravityMult: 3
+  jumpHeight: 3.5
+  jumpTimeToApex: 0.45
+  jumpForce: 15.555555
+  jumpCutGravityMult: 4
   jumpHangGravityMult: 1
   jumpHangTimeThreshold: 0
   jumpHangAccelerationMult: 1

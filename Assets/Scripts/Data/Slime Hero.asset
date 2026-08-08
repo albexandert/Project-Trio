@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93a359bb3ff2e5d489c431ba08d6b9a5, type: 3}
+  m_Name: Slime Hero
+  m_EditorClassIdentifier: 
+  gravityStrength: -88.888885
+  gravityScale: 4.444444
+  fallGravityMult: 2
+  maxFallSpeed: 20
+  fastFallGravityMult: 2
+  maxFastFallSpeed: 20
+  runMaxSpeed: 4
+  runAcceleration: 4
+  runAccelAmount: 50
+  runDecceleration: 0.01
+  runDeccelAmount: 0.125
+  accelInAir: 0.3
+  deccelInAir: 1
+  doConserveMomentum: 1
+  jumpHeight: 1
+  jumpTimeToApex: 0.15
+  jumpForce: 13.333333
+  jumpCutGravityMult: 2
+  jumpHangGravityMult: 0
+  jumpHangTimeThreshold: 0
+  jumpHangAccelerationMult: 0
+  jumpHangMaxSpeedMult: 0
+  wallJumpForce: {x: 15, y: 15}
+  wallJumpRunLerp: 0.025
+  wallJumpTime: 0.2
+  doTurnOnWallJump: 1
+  slideSpeed: 3
+  slideAccel: 100
+  coyoteTime: 0.01
+  jumpInputBufferTime: 0.15

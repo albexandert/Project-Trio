@@ -10,8 +10,9 @@ public class PlayerSwitchingScript : MonoBehaviour
     public SlimeAbility sa;
     public SwordAbility swa;
     public MageAbility ma;
-    public bool swordActive = true;
-    public bool mageActive = false;
+    public bool swordActive;
+    public bool mageActive;
+    public bool slimeActive;
     public float delay;
     public bool delayActive = false;
     // Start is called before the first frame update
@@ -19,20 +20,22 @@ public class PlayerSwitchingScript : MonoBehaviour
     {
         swordHero = GameObject.FindGameObjectWithTag("SWH");
         mageHero = GameObject.FindGameObjectWithTag("MH");
-        //slimeHero = GameObject.FindGameObjectWithTag("SH");
+        slimeHero = GameObject.FindGameObjectWithTag("SH");
         swa = swordHero.GetComponent<SwordAbility>();
         ma = mageHero.GetComponent<MageAbility>();
-        //sa = slimeHero.GetComponent<SlimeAbility>();
+        sa = slimeHero.GetComponent<SlimeAbility>();
         mageHero.SetActive(false);
-        //limeHero.SetActive(false);
+        slimeHero.SetActive(false);
+        swordActive = true;
     }
 
+    
     // Update is called once per frame
     void Update()
     {
         if (!delayActive)
         {
-            if (/*!sa.isWallClimbing && (!sa.isTop && !sa.isTopTwo) &&*/ !swa.isAttack && !ma.isMagic)
+            if ((!sa.isTop && !sa.isTopTwo) && !swa.isAttack && !ma.isMagic)
             {
                 if (Input.GetButtonDown("Switch"))
                 {
@@ -63,7 +66,10 @@ public class PlayerSwitchingScript : MonoBehaviour
             swordHero.GetComponent<PlayerController>().lastOnGroundTime = 0;
             swordHero.GetComponent<PlayerController>().lastOnWallRightTime = 0;
             swordHero.GetComponent<PlayerController>().lastOnWallLeftTime = 0;
+            swordHero.GetComponent<PlayerController>().isIF = false;
+            swordHero.GetComponent<PlayerController>().sr.color = new Color(Color.white.r, Color.white.g, Color.white.g, 1);
             swordHero.SetActive(false);
+            mageHero.SetActive(true);
             mageHero.transform.position = swordHero.transform.position;
             if (swordHero.GetComponent<PlayerController>().isFacingRight != mageHero.GetComponent<PlayerController>().isFacingRight)
             {
@@ -74,7 +80,6 @@ public class PlayerSwitchingScript : MonoBehaviour
                 mageHero.GetComponent<PlayerController>().isSliding = true;
             }
             swordHero.GetComponent<PlayerController>().isSliding = false;
-            mageHero.SetActive(true);
             swordActive = false;
             mageActive = true;
         }
@@ -88,55 +93,58 @@ public class PlayerSwitchingScript : MonoBehaviour
             mageHero.GetComponent<PlayerController>().lastOnGroundTime = 0;
             mageHero.GetComponent<PlayerController>().lastOnWallRightTime = 0;
             mageHero.GetComponent<PlayerController>().lastOnWallLeftTime = 0;
+            mageHero.GetComponent<PlayerController>().isIF = false;
+            mageHero.GetComponent<PlayerController>().sr.color = new Color(Color.white.r, Color.white.g, Color.white.g, 1);
             mageHero.SetActive(false);
-            swordHero.transform.position = mageHero.transform.position;
-            if (mageHero.GetComponent<PlayerController>().isFacingRight != swordHero.GetComponent<PlayerController>().isFacingRight)
+            slimeHero.SetActive(true);
+            slimeHero.transform.position = mageHero.transform.position;
+            if (slimeHero.GetComponent<PlayerController>().isFacingRight != mageHero.GetComponent<PlayerController>().isFacingRight)
             {
-                swordHero.GetComponent<PlayerController>().Turn();
+                slimeHero.GetComponent<PlayerController>().Turn();
             }
             if (mageHero.GetComponent<PlayerController>().isSliding)
             {
-                swordHero.GetComponent<PlayerController>().isSliding = true;
+                slimeHero.GetComponent<PlayerController>().isSliding = true;
             }
             mageHero.GetComponent<PlayerController>().isSliding = false;
-            swordHero.SetActive(true);
             mageActive = false;
-            swordActive = true;
-
-            /*
-            mageHero.SetActive(false);
-            slimeHero.transform.position = mageHero.transform.position;
-            if (mageHero.GetComponent<PlayerController>().isFacingRight != slimeHero.GetComponent<PlayerController>().isFacingRight)
-            {
-                slimeHero.transform.Rotate(0f, 180f, 0f);
-            }
-            slimeHero.GetComponent<PlayerController>().isFacingRight = mageHero.GetComponent<PlayerController>().isFacingRight;
-            slimeHero.SetActive(true);
-            mageActive = false;
-            */
+            slimeActive = true;
         }
         else
         {
-            /*
+            slimeHero.GetComponent<PlayerController>().isJumping = false;
+            slimeHero.GetComponent<PlayerController>().isWallJumping = false;
+            slimeHero.GetComponent<PlayerController>().isJumpCut = false;
+            slimeHero.GetComponent<PlayerController>().isJumpFalling = false;
+            slimeHero.GetComponent<PlayerController>().lastPressedJumpTime = 0;
+            slimeHero.GetComponent<PlayerController>().lastOnGroundTime = 0;
+            slimeHero.GetComponent<PlayerController>().lastOnWallRightTime = 0;
+            slimeHero.GetComponent<PlayerController>().lastOnWallLeftTime = 0;
+            slimeHero.GetComponent<PlayerController>().isIF = false;
+            slimeHero.GetComponent<PlayerController>().sr.color = new Color(Color.white.r, Color.white.g, Color.white.g, 1);
             if (sa.isCrouched)
             {
-                sa.sr.sprite = sa.normal;
-                sa.bc.size = sa.normalSize;
-                sa.bc.offset = sa.normalOffset;
-                sa.pc.data.runMaxSpeed = sa.normalSpeed;
+                sa.isCrouched = false;
+                sa.Crouch();
             }
             slimeHero.SetActive(false);
+            swordHero.SetActive(true);
             swordHero.transform.position = slimeHero.transform.position;
             if (slimeHero.GetComponent<PlayerController>().isFacingRight != swordHero.GetComponent<PlayerController>().isFacingRight)
             {
-                swordHero.transform.Rotate(0f, 180f, 0f);
+                swordHero.GetComponent<PlayerController>().Turn();
             }
-            swordHero.GetComponent<PlayerController>().isFacingRight = slimeHero.GetComponent<PlayerController>().isFacingRight;
-            swordHero.SetActive(true);
+            if (slimeHero.GetComponent<PlayerController>().isSliding)
+            {
+                swordHero.GetComponent<PlayerController>().isSliding = true;
+            }
+            slimeHero.GetComponent<PlayerController>().isSliding = false;
+            slimeActive = false;
             swordActive = true;
-            */
         }
         delayActive = true;
     }
+
 }
+
 

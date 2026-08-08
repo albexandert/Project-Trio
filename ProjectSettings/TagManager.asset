@@ -9,6 +9,9 @@ TagManager:
   - SWH
   - MH
   - SH
+  - GM
+  - Wall
+  - plyss
   layers:
   - Default
   - TransparentFX
